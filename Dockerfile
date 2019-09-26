@@ -14,6 +14,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # install the Jetson SDK Manager
+# Note that this file is not included with the container github repo for licensing reasons
 COPY sdkmanager_0.9.14-4961_amd64.deb /sdkmanager_0.9.14-4961_amd64.deb
 RUN dpkg -i sdkmanager_0.9.14-4961_amd64.deb
 RUN rm sdkmanager_0.9.14-4961_amd64.deb
@@ -25,18 +26,12 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-#RUN useradd -ms /bin/bash jetpack
-
-
-RUN groupadd -g 999 appuser && \
-    useradd -u 999 -g appuser -ms /bin/bash jetpack
-
-# add a superuser
-RUN useradd -ms /bin/bash -p foomp superjet 
-RUN usermod -aG sudo superjet
+# create a sudoer user who can install sdk components
+ENV USER_NAME jetpack
+ENV USER_PASS fartparty2019
+RUN useradd  -p $(openssl passwd -1 $USER_PASS)  -ms /bin/bash -G sudo ${USER_NAME}
 
 ENV HOME /home/jetpack
-
 WORKDIR $HOME
 
 COPY entry.sh /entry.sh
