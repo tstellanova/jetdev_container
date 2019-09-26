@@ -2,8 +2,8 @@
 
 set -e
 
-uid=$HOST_USER_ID
-gid=$HOST_USER_GID
+#uid=$HOST_USER_ID
+#gid=$HOST_USER_GID
 
 export NO_AT_BRIDGE=1
 
