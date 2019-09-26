@@ -5,6 +5,7 @@ RUN apt-get update && \
 		sudo \
 		dialog \
 		less \
+		vim \
 		x-window-system \
 		mesa-utils \
 		locales \ 
