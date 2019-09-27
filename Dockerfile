@@ -6,6 +6,7 @@ RUN apt-get update && \
 		dialog \
 		less \
 		vim \
+		cron \
 		x-window-system \
 		mesa-utils \
 		locales \ 
@@ -29,13 +30,14 @@ ENV LC_ALL en_US.UTF-8
 
 # create a sudoer user who can install sdk components
 ENV USER_NAME jetpack
-ENV USER_PASS fartparty2019
+ENV USER_PASS fartparty
 RUN useradd  -p $(openssl passwd -1 $USER_PASS)  -ms /bin/bash -G sudo ${USER_NAME}
 
 ENV HOME /home/jetpack
 WORKDIR $HOME
 
-COPY entry.sh /entry.sh
+COPY install_sdk.sh /install_sdk.sh
+COPY offline_sdk.sh /offline_sdk.sh
 USER jetpack 
-ENTRYPOINT /entry.sh
+
 
